@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableHighlight, BackHandler, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableHighlight, BackHandler, ScrollView, StyleSheet } from 'react-native';
 import { DatePickerInput } from "react-native-paper-dates";
 import { useSelector, useDispatch } from 'react-redux';
 import DropDownPicker from "react-native-dropdown-picker";
@@ -13,33 +13,19 @@ import { DataTable } from "react-native-paper";
 
 function ShowTimesheet() {
 
-    //const url = SHOW_ATTENDANCE_API;//"https://jsonplaceholder.typicode.com/users";//SHOW_ATTENDANCE_API;
-    //  console.log("url",url)
-    //const [data, setData] = useState([]);
-
-    // const fetchInfo = () => {
-    //   return fetch(url)
-    //     .then((res) => res.json())
-    //     .then((d) => setData(d))
-    // }
-
-    // useEffect(() => {
-    //     fetchInfo();
-    //   }, []);
-
     const [empId, setEmpId] = useState('');
-    const [empName, setEmpName] = useState('');
+    // const [empName, setEmpName] = useState('');
     const [fromDate, setFromDate] = React.useState(undefined);
     const date1 = moment(fromDate, 'DD-MM-YYYY').format();
     const dateFrom = date1.split('T')[0];
     const [toDate, setToDate] = React.useState(undefined);
     const date2 = moment(toDate, 'DD-MM-YYYY').format();
     const dateTo = date2.split('T')[0];
-    const [open, setOpen] = useState(false);
-    const [values, setValues] = useState(null);
-    const [items, setItems] = useState([
-        { label: 'Leave', value: 'Leave' },
-        { label: 'Work from home', value: 'Work from home' }])
+    // const [open, setOpen] = useState(false);
+    // const [values, setValues] = useState(null);
+    // const [items, setItems] = useState([
+    //     { label: 'Leave', value: 'Leave' },
+    //     { label: 'Work from home', value: 'Work from home' }])
 
     const tableHead = ["Emp_ID", "Emp_Name", "Designation", "Date", "Status"];
 
@@ -47,24 +33,29 @@ function ShowTimesheet() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
-    //
     const [tableData, setTableData] = useState([]);
 
-    // useEffect(() => {
-    //   fetchData();
-    // }, []);
+    // const handleSubmit = () => {
+    //     fetch(SHOW_ATTENDANCE_API)
+    //       .then(response => response.json())
+    //       .then(json => setTableData(json))
+    //       console.log("tableData+++",tableData)
+
+    //   }
+
 
     // const fetchData = async () => {
     //   try {
-    //     const response = await axios.get(SHOW_ATTENDANCE_API);
-    //     setTableData(response.data.attendanceDetails); 
-    //     console.log("TestDisplay+++",response.data.attendanceDetails);
-    //    
+    //     const response = await axios.post(SHOW_ATTENDANCE_API);
+    //     console.log("fetchapi++",response)
+    //     // setTableData(response.data.attendanceDetails); 
+    //     // console.log("TestDisplay+++",response.data.attendanceDetails);
+
     //   } catch (error) {
     //     console.error('Error fetching data:', error);
     //   }
     // };
-    //
+
     const handleLogin = () => {
         navigation.navigate('Login');
     }
@@ -78,11 +69,12 @@ function ShowTimesheet() {
     }
 
     function onSuccess(response) {
-        // setTableData(response); 
+        setTableData(response.attendanceDetails)
+        //  console.log("setTableData",tableData)
         console.log("tableResponse++", response.attendanceDetails);
         console.log("onSuccessResponse", response)
     }
-
+    console.log("setTableData", tableData)
     function onError(error) {
         console.log("onErrorResponse", error)
     }
@@ -118,7 +110,7 @@ function ShowTimesheet() {
                 <DatePickerInput
                     // style={{ marginHorizontal: 20, marginBottom: 10,marginTop:60, width: 40, backgroundColor: 'white', borderColor: 'black', borderTopColor: 'black' }}
                     style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 20, width: 45, backgroundColor: 'white' }}
-                    locale="en"
+                    // locale="en"
                     value={fromDate}
                     label="From date"
                     onChange={(d) => setFromDate(d)}
@@ -127,7 +119,7 @@ function ShowTimesheet() {
                 <DatePickerInput
                     // style={{ marginTop: 120, marginHorizontal: 20, width: 40, backgroundColor: 'white', borderColor: 'grey' }}
                     style={{ marginTop: 140, marginHorizontal: 20, width: 45, backgroundColor: 'white' }}
-                    locale="en"
+                    // locale="en"
                     value={toDate}
                     label="To date"
                     onChange={(d) => setToDate(d)}
@@ -154,23 +146,7 @@ function ShowTimesheet() {
                     </View>
                 </TouchableHighlight>
             </View>
-            {/* <View>
-                <Text>{data.map((dataObj, index) => {
-          return (
-            <View
-              style={{
-                width: "15em",
-                backgroundColor: "#35D841",
-                padding: 2,
-                borderRadius: 10,
-                marginBlock: 10,
-              }}
-            >
-              <Text style={{ fontSize: 20, color: 'white' }}>{dataObj.name}</Text>
-            </View>
-          );
-        })}</Text>
-            </View> */}
+
             <View>
                 <TouchableHighlight onPress={handleLogin}>
                     <View >
@@ -178,26 +154,36 @@ function ShowTimesheet() {
                     </View>
                 </TouchableHighlight>
             </View>
-            <View style={{ flex: 1, padding: 18, paddingTop: 30, backgroundColor: "#fff" }}>
+            <ScrollView horizontal>
+                <View style={styles.mainbox}>
+                    <DataTable>
+                        {/* <ScrollView  contentContainerStyle={{ flexDirection: 'column' }}> */}
+                        <DataTable.Header style={styles.databeHeader}>
+                            <DataTable.Title style={{ width: 100 }}>ID</DataTable.Title>
+                            <DataTable.Title style={{ width: 100 }}>Name</DataTable.Title>
+                            <DataTable.Title style={{ width: 100 }}>Designation</DataTable.Title>
+                            <DataTable.Title style={{ width: 100 }}> Date</DataTable.Title>
+                            <DataTable.Title style={{ width: 100 }}>Status</DataTable.Title>
+                        </DataTable.Header>
+                        <ScrollView verticle>
+                            {
+                                tableData.map((l, i) => (
+                                    // <DataTable.Row style={styles.databeBox} key={i}>
+                                    <DataTable.Row style={{ flex: 1, width: '100%', height: 50 }} key={i}>
 
-                {/* <Table borderStyle={{ borderWidth: 2, borderColor: "gray" }}>
-                <Row
-               data={tableHead}
-               style={{ height: 40, backgroundColor: "#f1f8ff" }}
-               textStyle={{ textAlign: "center", fontWeight: "bold" }}
-            />
-             <Rows data={tableData} textStyle={styles.text} />
-                </Table> */}
-                <DataTable >
-                    <DataTable.Header style={styles.tabledBorder}>
-                        <DataTable.Title style={styles.tableheader}>ID</DataTable.Title>
-                        <DataTable.Title>Name</DataTable.Title>
-                        <DataTable.Title style={styles.tableheader}>Designation</DataTable.Title>
-                        <DataTable.Title>Date</DataTable.Title>
-                        <DataTable.Title>Status</DataTable.Title>
-                    </DataTable.Header>
-                </DataTable>
-            </View>
+                                        <DataTable.Cell style={{ width: 100 }}>{l.EmpID}</DataTable.Cell>
+                                        <DataTable.Cell style={{ width: 100 }}>{l.EmpName}</DataTable.Cell>
+                                        <DataTable.Cell style={{ width: 100 }}>{l.Designation}</DataTable.Cell>
+                                        <DataTable.Cell style={{ width: 100 }}>{l.Date}</DataTable.Cell>
+                                        <DataTable.Cell style={{ width: 100 }}>{l.Status}</DataTable.Cell>
+                                    </DataTable.Row>
+                                ))
+                            }
+                        </ScrollView>
+                    </DataTable>
+
+                </View>
+            </ScrollView>
         </View>
     );
 }
@@ -249,9 +235,25 @@ const styles = StyleSheet.create({
 
     },
     text: { margin: 6 },
-    tableheader:{height: 40, backgroundColor: "#f1f8ff" , textAlign: "center", fontWeight: "bold" },
-    tabledBorder:{
-         borderWidth: 2, borderColor: "gray" 
+    tableheader: { height: 40, backgroundColor: "#f1f8ff", textAlign: "center", fontWeight: "bold" },
+    tabledBorder: {
+        borderWidth: 2, borderColor: "gray"
+    },
+    databeBox: {
+        margin: 10,
+        textAlign: 'center',
+    },
+    dataWrapper: { marginTop: -1 },
+    mainbox: {
+        textAlign: 'center',
+        margin: 15,
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+    databeHeader: {
+        margin: 10,
+        textAlign: 'left',
     }
+
 })
 export default ShowTimesheet;
