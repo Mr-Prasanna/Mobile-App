@@ -9,10 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { useSelector, useDispatch } from 'react-redux';
-// import DatePicker from "react-datepicker";
-// import DatePicker from 'react-native-date-picker'
-// import DateTimePicker from "@react-native-community/datetimepicker";
-// import DatePicker from "react-native-datepicker";
 
 
 export default function TimeSheet() {
@@ -86,7 +82,7 @@ export default function TimeSheet() {
         }
     }
     const handleShowAttendance = () => {
-        navigation.navigate('Show attendence');
+        navigation.navigate('Show timesheet');
     }
 
     const handleAddAttendance = () => {

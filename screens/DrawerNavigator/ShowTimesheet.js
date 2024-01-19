@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Table, Row, Rows } from "react-native-table-component";
 import axios from 'axios';
 import { DataTable } from "react-native-paper";
+import { FlatList } from "react-native-gesture-handler";
 
 function ShowTimesheet() {
 
@@ -35,30 +36,10 @@ function ShowTimesheet() {
 
     const [tableData, setTableData] = useState([]);
 
-    // const handleSubmit = () => {
-    //     fetch(SHOW_ATTENDANCE_API)
-    //       .then(response => response.json())
-    //       .then(json => setTableData(json))
-    //       console.log("tableData+++",tableData)
-
-    //   }
-
-
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await axios.post(SHOW_ATTENDANCE_API);
-    //     console.log("fetchapi++",response)
-    //     // setTableData(response.data.attendanceDetails); 
-    //     // console.log("TestDisplay+++",response.data.attendanceDetails);
-
-    //   } catch (error) {
-    //     console.error('Error fetching data:', error);
-    //   }
-    // };
-
-    const handleLogin = () => {
-        navigation.navigate('Login');
+    const handleTimesheet = () => {
+        navigation.navigate('Timesheet');
     }
+
     const handleSearch = () => {
         const getData = {
             "empid": empId,
@@ -69,8 +50,7 @@ function ShowTimesheet() {
     }
 
     function onSuccess(response) {
-        setTableData(response.attendanceDetails)
-        //  console.log("setTableData",tableData)
+        setTableData(response.attendanceDetails);
         console.log("tableResponse++", response.attendanceDetails);
         console.log("onSuccessResponse", response)
     }
@@ -148,50 +128,37 @@ function ShowTimesheet() {
             </View>
 
             <View>
-                <TouchableHighlight onPress={handleLogin}>
+                <TouchableHighlight onPress={handleTimesheet}>
                     <View >
-                        <Text style={{ color: 'blue', textAlign: 'right' }}> Back to Login </Text>
+                        <Text style={{ color: 'blue', textAlign: 'right' }}> Back </Text>
                     </View>
                 </TouchableHighlight>
             </View>
-            <ScrollView horizontal>
-                <View style={styles.mainbox}>
-                    <DataTable>
-                        {/* <ScrollView  contentContainerStyle={{ flexDirection: 'column' }}> */}
-                        <DataTable.Header style={styles.databeHeader}>
-                            <DataTable.Title style={{ width: 100 }}>ID</DataTable.Title>
-                            <DataTable.Title style={{ width: 100 }}>Name</DataTable.Title>
-                            <DataTable.Title style={{ width: 100 }}>Designation</DataTable.Title>
-                            <DataTable.Title style={{ width: 100 }}> Date</DataTable.Title>
-                            <DataTable.Title style={{ width: 100 }}>Status</DataTable.Title>
-                        </DataTable.Header>
-                        <ScrollView verticle>
-                            {
-                                tableData.map((l, i) => (
-                                    // <DataTable.Row style={styles.databeBox} key={i}>
-                                    <DataTable.Row style={{ flex: 1, width: '100%', height: 50 }} key={i}>
-
-                                        <DataTable.Cell style={{ width: 100 }}>{l.EmpID}</DataTable.Cell>
-                                        <DataTable.Cell style={{ width: 100 }}>{l.EmpName}</DataTable.Cell>
-                                        <DataTable.Cell style={{ width: 100 }}>{l.Designation}</DataTable.Cell>
-                                        <DataTable.Cell style={{ width: 100 }}>{l.Date}</DataTable.Cell>
-                                        <DataTable.Cell style={{ width: 100 }}>{l.Status}</DataTable.Cell>
-                                    </DataTable.Row>
-                                ))
-                            }
-                        </ScrollView>
-                    </DataTable>
-
-                </View>
-            </ScrollView>
+            <FlatList
+                data = {tableData}
+                renderItem={renderItemUI}
+                keyExtractor={(item) => item.EmpId}/>
         </View>
     );
+}
+
+const renderItemUI = ({item}) => {
+    console.log('item++++',item)
+    return(
+        <View style = {{padding: 10, borderColor: 'black', borderWidth: 1,margin: 10}}>
+            <Text style = {{fontSize: 20,fontWeight: 'bold'}}>{`Name    : ${item.EmpName}`}</Text>
+            <Text style = {{fontSize: 15,fontWeight: 'bold'}}>{`Designation : ${item.Designation}`}</Text>
+            <Text style = {{fontSize: 15,fontWeight: 'bold'}}>{`Date    : ${item.Date}`}</Text>
+            <Text style = {{fontSize: 15,fontWeight: 'bold'}}>{`Status  : ${item.Status}`}</Text>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        // backgroundColor: '#61A3BA'
     },
     body: {
         justifyContent: "center",
@@ -235,25 +202,7 @@ const styles = StyleSheet.create({
 
     },
     text: { margin: 6 },
-    tableheader: { height: 40, backgroundColor: "#f1f8ff", textAlign: "center", fontWeight: "bold" },
-    tabledBorder: {
-        borderWidth: 2, borderColor: "gray"
-    },
-    databeBox: {
-        margin: 10,
-        textAlign: 'center',
-    },
-    dataWrapper: { marginTop: -1 },
-    mainbox: {
-        textAlign: 'center',
-        margin: 15,
-        flex: 1,
-        justifyContent: 'space-between',
-    },
-    databeHeader: {
-        margin: 10,
-        textAlign: 'left',
-    }
+
 
 })
 export default ShowTimesheet;

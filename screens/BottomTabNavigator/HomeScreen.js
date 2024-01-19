@@ -22,13 +22,13 @@ function Home() {
                         <View style={styles.contents}>
                             <Image source={require('./../../images/profile1.jpeg')} style={styles.imagesize} />
                             <Text style={styles.contents}>Kumar</Text>
-                            <Text style={styles.contents}>01-01-2000</Text>
+                            <Text style={styles.contents}>06 January</Text>
                             {/* <Text style={styles.contents}>Year</Text> */}
                         </View>
                         <View>
                             <Image source={require('./../../images/profile1.jpeg')} style={styles.imagesize} />
                             <Text style={styles.contents}>Dinesh</Text>
-                            <Text style={styles.contents}>12-10-1999</Text>
+                            <Text style={styles.contents}>12 January</Text>
                             {/* <Text style={styles.contents}>Year</Text> */}
                         </View>
 

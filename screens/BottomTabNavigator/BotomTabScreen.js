@@ -13,17 +13,7 @@ const Tab = createBottomTabNavigator();
 export default function MyTabs() {
     return (
         <Tab.Navigator screenOptions={{ headerShown: true }} barStyle={{ marginLeft:10, marginRight:10 }}>
-            {/* <Tab.Screen
-                name="Home"
-                component={Home}
-                Options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon: ({ focused }) => (//home-circle-outline
-                    <MaterialCommunityIcons name="home-circle" color={focused ? 'red' : '#000'} size={26} />),
-                }}
-            /> */}
-             <Tab.Screen
-                name="Home Screen"
+            <Tab.Screen name="Home"
                 component={Home}
                 Options={{
                     tabBarLabel: 'Home',
@@ -31,6 +21,15 @@ export default function MyTabs() {
                     <MaterialCommunityIcons name="home-circle" color={focused ? 'red' : '#000'} size={26} />),
                 }}
             />
+             {/* <Tab.Screen
+                name="Home Screen"
+                component={Home}
+                Options={{
+                    tabBarLabel: 'Home screen',
+                    tabBarIcon: ({ focused }) => (//home-circle-outline
+                    <MaterialCommunityIcons name="home-circle" color={focused ? 'red' : '#000'} size={26} />),
+                }}
+            /> */}
             <Tab.Screen name="Profile"
                 component={Profiles}
                 options={{
@@ -40,24 +39,24 @@ export default function MyTabs() {
                         ),
                 }}
             />
-            <Tab.Screen name="Settings" 
-            component={Settings} 
-            options={{
-                tabBarLabel: 'Settings',
-                tabBarIcon: ({ focused }) => (
-                        <MaterialCommunityIcons name="cog" color={focused ? 'red' : '#000'} size={26} />
-                    ),
-            }}
-            />
              <Tab.Screen name="Timesheet" 
             component={TimeSheet} 
             options={{
                 tabBarLabel: 'timesheet',
                 tabBarIcon: ({ focused }) => (
-                        <MaterialCommunityIcons name="cog" color={focused ? 'red' : '#000'} size={26} />
+                    <MaterialCommunityIcons name="plus-circle" color={focused ? 'red' : '#000'} size={26} />
                     ),
-            }}
+                }}
             />
+                <Tab.Screen name="Settings" 
+                component={Settings} 
+                options={{
+                    tabBarLabel: 'Settings',
+                    tabBarIcon: ({ focused }) => (
+                            <MaterialCommunityIcons name="cog" color={focused ? 'red' : '#000'} size={26} />
+                        ),
+                }}
+                />
         </Tab.Navigator>
     )
 }
